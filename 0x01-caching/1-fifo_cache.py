@@ -14,11 +14,13 @@ class FIFOCache(BaseCaching):
         """ assigns the new item to the dictionary
         """
         if key is not None and item is not None:
-        if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
-            """Discard the first item (FIFO)"""
-            first_key = next(iter(self.cache_data))
-            print(f"DISCARD: {first_key}")
-            self.cache_data.pop(first_key)
+            if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
+                """Discard the first item (FIFO)"""
+                first_key = next(iter(self.cache_data))
+                print(f"DISCARD: {first_key}")
+                self.cache_data.pop(first_key)
+
+            self.cache_data[key] = item
 
     def get(self, key):
         """ returns the value in self.cache_data linked to key
