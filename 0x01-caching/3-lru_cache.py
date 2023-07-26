@@ -32,4 +32,7 @@ class LRUCache(BaseCaching):
         """
         if key is None or not (key in self.cache_data):
             return None
-        return self.cache_data[key]
+        else:
+            del self.history[self.history.index(key)]
+            self.history.append(key)
+            return self.cache_data[key]
