@@ -5,13 +5,6 @@ Basic Flask app that serves an index page.
 from flask import Flask, render_template, request
 from flask_babel import Babel, _
 
-app = Flask(__name__)
-"""
-Instantiate the Babel object and set
-the default locale and timezone
-"""
-babel = Babel(app)
-
 
 class Config:
     """
@@ -23,6 +16,9 @@ class Config:
 
 
 app.config.from_object(Config)
+app = Flask(__name__, template_folder='templates')
+app.config.from_object(Config)
+babel = Babel(app)
 
 
 @babel.localeselector
