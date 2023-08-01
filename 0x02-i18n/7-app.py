@@ -109,25 +109,6 @@ def get_timezone() -> str:
 
 
 @app.route('/')
-
-def get_locale():
-    """
-     determine the best match with our supported languages.
-    """
-    """
-    Check if the 'locale' parameter is
-    present in the request arguments
-    """
-    locale = request.args.get('locale')
-    """Check if the provided 'locale' is a supported locale"""
-    if locale and locale in app.config['LANGUAGES']:
-        return locale
-
-    locale = request.headers.get('locale', None)
-    if locale and locale in app.config['LANGUAGES']:
-        return locale
-
-    return request.accept_languages.best_match(app.config['LANGUAGES'])
 def index():
     """
     hello world
