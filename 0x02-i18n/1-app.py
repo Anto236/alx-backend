@@ -6,12 +6,17 @@ from flask import Flask, render_template
 from flask_babel import Babel
 
 app = Flask(__name__)
-"""Instantiate the Babel object and set the default locale and timezone"""
+"""
+Instantiate the Babel object and set
+the default locale and timezone
+"""
 babel = Babel(app)
 
 
-"""Create the Config class with LANGUAGES attribute"""
 class Config:
+    """
+    Config class
+    """
     LANGUAGES = ["en", "fr"]
     BABEL_DEFAULT_LOCALE = "en"
     BABEL_DEFAULT_TIMEZONE = "UTC"
