@@ -2,8 +2,9 @@
 """
 Basic Flask app that serves an index page.
 """
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, g
 from flask_babel import Babel
+from typing import Union
 
 app = Flask(__name__)
 """
@@ -11,6 +12,14 @@ Instantiate the Babel object and set
 the default locale and timezone
 """
 babel = Babel(app)
+
+"""Mock user table"""
+users = {
+    1: {"name": "Balou", "locale": "fr", "timezone": "Europe/Paris"},
+    2: {"name": "Beyonce", "locale": "en", "timezone": "US/Central"},
+    3: {"name": "Spock", "locale": "kg", "timezone": "Vulcan"},
+    4: {"name": "Teletubby", "locale": None, "timezone": "Europe/London"},
+}
 
 
 class Config:
@@ -23,6 +32,31 @@ class Config:
 
 
 app.config.from_object(Config)
+
+
+@app.before_request
+def before_request(login_as: int = None):
+    """ Request of each function
+    """
+    user: dict = get_user()
+    print(user)
+    g.user = user
+
+
+def get_user() -> Union[dict, None]:
+    """ Get the user of the dict
+
+        Return User
+    """
+    login_user = request.args.get('login_as', None)
+
+    if login_user is None:
+        return None
+
+    user: dict = {}
+    user[login_user] = users.get(int(login_user))
+
+    return user[login_user]
 
 
 @babel.localeselector
@@ -46,7 +80,7 @@ def index():
     """
     hello world
     """
-    return render_template('4-index.html')
+    return render_template('5-index.html')
 
 
 if __name__ == '__main__':
